@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Los Beatles — Peluquería · Puno</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #f5c400;
+    --gold-dark: #c9a200;
+    --black: #111;
+    --dark: #1a1a1a;
+    --white: #fff;
+    --gray: #888;
+    --whatsapp: #25D366;
+    --yape: #7b2d8b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(17,17,17,0.97); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(245,196,0,0.2);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 62px;
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold); font-weight: 700; }
+  .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+  .nav-links a { color: #aaa; text-decoration: none; font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta { background: var(--gold); color: var(--black); padding: 8px 18px; border-radius: 4px; font-size: 0.82rem; font-weight: 500; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--gold-dark); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; }
+
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 6rem 2rem 4rem; position: relative;
+    background: radial-gradient(ellipse at 20% 50%, rgba(245,196,0,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 30%, rgba(245,196,0,0.04) 0%, transparent 50%), var(--black);
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background-image: repeating-linear-gradient(0deg,rgba(255,255,255,0.013) 0px,rgba(255,255,255,0.013) 1px,transparent 1px,transparent 60px),
+      repeating-linear-gradient(90deg,rgba(255,255,255,0.013) 0px,rgba(255,255,255,0.013) 1px,transparent 1px,transparent 60px);
+  }
+  .hero-scissors { font-size: 2.5rem; margin-bottom: 1.5rem; animation: spin-in 0.8s ease both; }
+  @keyframes spin-in { from{opacity:0;transform:rotate(-30deg) scale(0.5)} to{opacity:1;transform:rotate(0) scale(1)} }
+  .hero-eyebrow { font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; animation: fade-up 0.6s 0.2s ease both; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(4rem,13vw,9.5rem); font-weight: 900; line-height: 0.88; animation: fade-up 0.6s 0.3s ease both; }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub { font-size: 1.05rem; color: #aaa; margin-top: 1.5rem; font-style: italic; animation: fade-up 0.6s 0.5s ease both; }
+  .hero-price { margin-top: 2rem; display: inline-flex; align-items: baseline; gap: 0.4rem; background: rgba(245,196,0,0.1); border: 1px solid rgba(245,196,0,0.3); padding: 0.75rem 2rem; border-radius: 4px; animation: fade-up 0.6s 0.6s ease both; }
+  .hero-price .currency { font-size: 1.2rem; color: var(--gold); font-weight: 500; }
+  .hero-price .amount { font-size: 3rem; font-weight: 700; color: var(--gold); line-height: 1; }
+  .hero-price .desc { font-size: 0.85rem; color: #aaa; }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 2rem; animation: fade-up 0.6s 0.7s ease both; }
+  @keyframes fade-up { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  .btn-primary { background: var(--gold); color: var(--black); padding: 14px 28px; border-radius: 4px; font-weight: 500; text-decoration: none; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; transition: transform 0.15s, background 0.2s; }
+  .btn-primary:hover { background: var(--gold-dark); transform: translateY(-2px); }
+  .btn-ghost { background: transparent; color: var(--white); padding: 14px 28px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2); text-decoration: none; font-size: 0.95rem; transition: border-color 0.2s, transform 0.15s; }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+  .full-section { padding: 5rem 2rem; border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .full-section .inner { max-width: 1100px; margin: 0 auto; }
+  .section-label { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem,5vw,3rem); font-weight: 700; margin-bottom: 1rem; }
+  .divider { width: 60px; height: 2px; background: var(--gold); margin: 1.5rem 0; }
+
+  .info-box { background: var(--dark); border-radius: 12px; border: 1px solid rgba(255,255,255,0.07); overflow: hidden; }
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); }
+  .info-item { padding: 2rem; border-right: 1px solid rgba(255,255,255,0.07); border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .info-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+  .info-item h3 { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 0.5rem; }
+  .info-item p { font-size: 0.95rem; line-height: 1.6; }
+  .gold { color: var(--gold); font-weight: 500; }
+  .horario-bar { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; background: rgba(245,196,0,0.08); border: 1px solid rgba(245,196,0,0.2); border-radius: 6px; padding: 0.75rem 1rem; margin-top: 0.5rem; }
+  .horario-pill { background: var(--gold); color: var(--black); padding: 4px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: 500; white-space: nowrap; }
+
+  .form-group { margin-bottom: 1.25rem; }
+  .form-group label { display: block; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); margin-bottom: 6px; }
+  .form-group select, .form-group input { width: 100%; padding: 12px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; color: var(--white); font-size: 0.95rem; font-family: 'DM Sans', sans-serif; transition: border-color 0.2s; }
+  .form-group select:focus, .form-group input:focus { outline: none; border-color: var(--gold); }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn-whatsapp { width: 100%; background: var(--whatsapp); color: white; border: none; border-radius: 6px; padding: 14px; font-size: 1rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.2s, transform 0.15s; font-family: 'DM Sans', sans-serif; }
+  .btn-whatsapp:hover { background: #1ebe5c; transform: translateY(-2px); }
+
+  .tendencias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px,1fr)); gap: 1rem; margin-top: 2rem; }
+  .tendencia-card { background: var(--dark); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 1.5rem 1.25rem; cursor: pointer; transition: border-color 0.2s, transform 0.15s, background 0.2s; position: relative; }
+  .tendencia-card:hover { border-color: var(--gold); transform: translateY(-4px); background: rgba(245,196,0,0.04); }
+  .tendencia-card.selected { border-color: var(--gold); background: rgba(245,196,0,0.08); }
+  .tendencia-card.selected::after { content: '✓'; position: absolute; top: 10px; right: 12px; color: var(--gold); font-size: 0.85rem; font-weight: 700; }
+  .t-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .t-name { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.3rem; }
+  .t-desc { font-size: 0.8rem; color: var(--gray); line-height: 1.4; }
+  .t-badge { display: inline-block; font-size: 0.7rem; background: rgba(245,196,0,0.15); color: var(--gold); padding: 2px 8px; border-radius: 20px; margin-top: 0.5rem; }
+  .t-action { margin-top: 1.5rem; display: none; background: var(--dark); border: 1px solid rgba(245,196,0,0.25); border-radius: 10px; padding: 1.25rem 1.5rem; }
+  .t-action.show { display: block; }
+  .t-action p { font-size: 0.9rem; color: #aaa; margin-bottom: 1rem; line-height: 1.6; }
+  .btn-res { background: var(--gold); color: var(--black); border: none; border-radius: 6px; padding: 10px 22px; font-size: 0.9rem; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.2s; }
+  .btn-res:hover { background: var(--gold-dark); }
+
+  .yape-card {
+    background: linear-gradient(135deg, #4a1060 0%, #7b2d8b 55%, #9b3dab 100%);
+    border-radius: 16px; padding: 2.5rem 2rem; text-align: center;
+    border: 1px solid rgba(155,61,171,0.4); position: relative; overflow: hidden; max-width: 400px;
+  }
+  .yape-card::before { content:''; position:absolute; top:-50px; right:-50px; width:160px; height:160px; background:rgba(255,255,255,0.05); border-radius:50%; }
+  .yape-card::after { content:''; position:absolute; bottom:-40px; left:-40px; width:120px; height:120px; background:rgba(255,255,255,0.04); border-radius:50%; }
+  .yape-logo { font-size: 3rem; margin-bottom: 0.5rem; position: relative; z-index: 1; }
+  .yape-title { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; position:relative;z-index:1; }
+  .yape-numero { font-size:1.7rem; font-weight:700; letter-spacing:0.1em; margin:1rem 0 0.25rem; background:rgba(0,0,0,0.25); border-radius:8px; padding:0.75rem 1rem; position:relative;z-index:1; }
+  .yape-nombre { font-size:0.82rem; color:rgba(255,255,255,0.65); margin-bottom:1rem; position:relative;z-index:1; }
+  .yape-precio { display:inline-flex; align-items:baseline; gap:4px; background:rgba(245,196,0,0.25); border:1px solid rgba(245,196,0,0.5); border-radius:20px; padding:6px 18px; position:relative;z-index:1; }
+  .yape-precio .s { font-size:1rem; color:var(--gold); }
+  .yape-precio .n { font-size:1.8rem; font-weight:700; color:var(--gold); line-height:1; }
+  .yape-layout { display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center; }
+  .yape-steps p.title { font-weight:500; color:var(--white); margin-bottom:1.25rem; font-size:1rem; }
+  .yape-step { display:flex; gap:12px; align-items:flex-start; margin-bottom:0.9rem; }
+  .step-num { min-width:26px; height:26px; background:var(--gold); color:var(--black); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.78rem; font-weight:700; flex-shrink:0; margin-top:1px; }
+  .step-text { font-size:0.88rem; color:#bbb; line-height:1.5; }
+  .step-text strong { color:var(--white); }
+
+  .historia-body { display:grid; grid-template-columns:1fr 2fr; gap:4rem; align-items:start; }
+  .historia-stat { text-align:center; padding:2rem; border:1px solid rgba(245,196,0,0.2); border-radius:10px; }
+  .historia-stat .num { font-family:'Playfair Display',serif; font-size:4rem; font-weight:900; color:var(--gold); line-height:1; }
+  .historia-stat .lbl { font-size:0.78rem; color:var(--gray); letter-spacing:0.1em; text-transform:uppercase; margin-top:0.5rem; }
+  .historia-text { font-size:0.98rem; color:#bbb; line-height:1.85; }
+  .historia-text p { margin-bottom:1.25rem; }
+  .historia-text strong { color:var(--white); font-weight:500; }
+  .clientes-tag { display:inline-flex; align-items:center; gap:6px; background:rgba(245,196,0,0.1); border:1px solid rgba(245,196,0,0.25); padding:6px 14px; border-radius:20px; font-size:0.8rem; color:var(--gold); margin:0.25rem; }
+
+  .ubicacion-card { background:var(--dark); border:1px solid rgba(255,255,255,0.08); border-radius:12px; overflow:hidden; }
+  .mapa-placeholder { width:100%; height:240px; background:linear-gradient(135deg,#1a2a1a,#142014); display:flex; flex-direction:column; align-items:center; justify-content:center; border-bottom:1px solid rgba(255,255,255,0.07); }
+  .mapa-pin { font-size:3.5rem; margin-bottom:0.5rem; animation:bounce 2s infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .mapa-btn { display:inline-flex; align-items:center; gap:6px; background:var(--gold); color:var(--black); padding:9px 20px; border-radius:4px; font-size:0.85rem; font-weight:500; text-decoration:none; margin-top:0.75rem; transition:background 0.2s; }
+  .mapa-btn:hover { background:var(--gold-dark); }
+  .ubicacion-info { padding:1.5rem 2rem; }
+  .ubi-row { display:flex; gap:14px; padding:0.75rem 0; border-bottom:1px solid rgba(255,255,255,0.06); align-items:flex-start; }
+  .ubi-row:last-child { border-bottom:none; }
+  .ubi-icon { font-size:1.1rem; min-width:26px; margin-top:1px; }
+  .ubi-text { font-size:0.92rem; color:#bbb; line-height:1.5; }
+  .ubi-text strong { color:var(--white); font-weight:500; }
+
+  footer { background:var(--dark); border-top:1px solid rgba(255,255,255,0.07); padding:2.5rem 2rem; text-align:center; }
+  .footer-logo { font-family:'Playfair Display',serif; font-size:1.6rem; color:var(--gold); margin-bottom:0.5rem; }
+  footer p { font-size:0.82rem; color:var(--gray); line-height:1.7; }
+
+  .float-wa { position:fixed; bottom:24px; right:24px; z-index:200; background:var(--whatsapp); color:white; width:58px; height:58px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.6rem; text-decoration:none; box-shadow:0 4px 24px rgba(37,211,102,0.45); transition:transform 0.2s, box-shadow 0.2s; }
+  .float-wa:hover { transform:scale(1.1); box-shadow:0 6px 32px rgba(37,211,102,0.6); }
+
+  select option { background:#2c2c2c; color:white; }
+
+  @media (max-width:768px) {
+    .hamburger { display:flex; }
+    .nav-links { display:none; position:fixed; top:62px; left:0; right:0; background:var(--dark); flex-direction:column; padding:1.5rem; gap:1rem; border-bottom:1px solid rgba(255,255,255,0.1); z-index:99; }
+    .nav-links.open { display:flex; }
+    .nav-links li { list-style:none; }
+    .historia-body, .yape-layout { grid-template-columns:1fr; gap:2rem; }
+    .form-grid { grid-template-columns:1fr; }
+    nav { padding:0 1rem; }
+    .yape-card { max-width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">✂ Los Beatles</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#inicio">Inicio</a></li>
+    <li><a href="#citas">Citas</a></li>
+    <li><a href="#tendencias">Tendencias</a></li>
+    <li><a href="#pagos">Pagos</a></li>
+    <li><a href="#historia">Historia</a></li>
+    <li><a href="#ubicacion">Ubicación</a></li>
+  </ul>
+  <a href="https://wa.me/51974008957?text=Hola,%20quiero%20reservar%20una%20cita" class="nav-cta" target="_blank">Reservar</a>
+  <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div id="inicio" class="hero">
+  <div class="hero-scissors">✂</div>
+  <div class="hero-eyebrow">Peluquería de confianza · Puno, Perú · Desde 2009</div>
+  <h1>Los <span>Beatles</span></h1>
+  <div class="hero-sub">"El corte que te hace sentir como una estrella"</div>
+  <div class="hero-price">
+    <span class="currency">S/</span>
+    <span class="amount">13</span>
+    <span class="desc">por corte · todos los estilos</span>
+  </div>
+  <div class="hero-btns">
+    <a href="https://wa.me/51974008957?text=Hola,%20quiero%20reservar%20una%20cita%20en%20Los%20Beatles" class="btn-primary" target="_blank">💬 Reservar por WhatsApp</a>
+    <a href="#historia" class="btn-ghost">Nuestra historia</a>
+  </div>
+</div>
+
+<section id="info">
+  <div class="section-label">La peluquería</div>
+  <h2 class="section-title">Todo lo que necesitas saber</h2>
+  <div class="divider"></div>
+  <div class="info-box">
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-icon">📍</div>
+        <h3>Dirección</h3>
+        <p>Av. El Sol 135, Puno<br><span class="gold">Al frente del estadio</span></p>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">🕐</div>
+        <h3>Horario de atención</h3>
+        <div class="horario-bar">
+          <span class="horario-pill">9:00 am – 1:00 pm</span>
+          <span style="color:var(--gray)">·</span>
+          <span class="horario-pill">2:30 pm – 8:30 pm</span>
+        </div>
+        <p style="font-size:0.8rem;color:var(--gray);margin-top:0.5rem;">Lunes a Sábado</p>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">✂</div>
+        <h3>Precio único</h3>
+        <p><span class="gold" style="font-size:1.8rem;font-weight:700;">S/ 13</span><br>Todos los estilos</p>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">📞</div>
+        <h3>WhatsApp</h3>
+        <p><span class="gold">+51 974 008 957</span><br>Reservas y consultas</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="full-section" id="citas" style="background:var(--dark);">
+  <div class="inner" style="max-width:640px;">
+    <div class="section-label">Reservas</div>
+    <h2 class="section-title">Separar una cita</h2>
+    <div class="divider"></div>
+    <p style="color:#aaa;margin-bottom:2rem;font-size:0.95rem;">Completa el formulario y te enviamos directo a WhatsApp con tu reserva lista.</p>
+    <div class="form-group">
+      <label>Servicio</label>
+      <select id="servicio">
+        <option value="Corte clásico">Corte clásico — S/ 13</option>
+        <option value="Fade / degradado">Fade / degradado — S/ 13</option>
+        <option value="Undercut moderno">Undercut moderno — S/ 13</option>
+        <option value="Pompadour">Pompadour — S/ 13</option>
+        <option value="Texturizado">Texturizado — S/ 13</option>
+        <option value="Burst fade">Burst fade — S/ 13</option>
+        <option value="Corte + barba">Corte + arreglo de barba — S/ 13</option>
+        <option value="Corte para niños">Corte para niños — S/ 13</option>
+      </select>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Fecha preferida</label>
+        <input type="date" id="fecha">
+      </div>
+      <div class="form-group">
+        <label>Hora preferida</label>
+        <select id="hora">
+          <option>9:00 am</option><option>9:30 am</option><option>10:00 am</option>
+          <option>10:30 am</option><option>11:00 am</option><option>11:30 am</option>
+          <option>12:00 pm</option><option>12:30 pm</option><option>2:30 pm</option>
+          <option>3:00 pm</option><option>3:30 pm</option><option>4:00 pm</option>
+          <option>4:30 pm</option><option>5:00 pm</option><option>5:30 pm</option>
+          <option>6:00 pm</option><option>6:30 pm</option><option>7:00 pm</option>
+          <option>7:30 pm</option><option>8:00 pm</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Tu nombre</label>
+      <input type="text" id="nombre" placeholder="Escribe tu nombre...">
+    </div>
+    <button class="btn-whatsapp" onclick="reservar()">💬 Enviar reserva por WhatsApp</button>
+  </div>
+</div>
+
+<section id="tendencias">
+  <div class="section-label">Estilos populares</div>
+  <h2 class="section-title">Cortes en tendencia</h2>
+  <div class="divider"></div>
+  <p style="color:#aaa;font-size:0.9rem;">Toca un corte para ver detalles y reservarlo directamente.</p>
+  <div class="tendencias-grid">
+    <div class="tendencia-card" onclick="seleccionar(this,'Fade alto','El favorito del momento. Degradado limpio desde muy bajo, termina casi en nada arriba del oído. Perfecto para looks modernos y formales.')">
+      <div class="t-icon">💈</div><div class="t-name">Fade alto</div>
+      <div class="t-desc">Degradado limpio y definido</div>
+      <div class="t-badge">🔥 Muy pedido</div>
+    </div>
+    <div class="tendencia-card" onclick="seleccionar(this,'Undercut moderno','Lados y nuca rapados muy cortos con fuerte contraste arriba. Versátil y con mucho carácter, ideal para cualquier ocasión.')">
+      <div class="t-icon">✂</div><div class="t-name">Undercut moderno</div>
+      <div class="t-desc">Contraste alto, estilo urbano</div>
+      <div class="t-badge">🆕 Tendencia 2025</div>
+    </div>
+    <div class="tendencia-card" onclick="seleccionar(this,'Pompadour clásico','Cabello peinado hacia atrás con volumen en la parte frontal. Un clásico atemporal, elegante para cualquier ocasión.')">
+      <div class="t-icon">👑</div><div class="t-name">Pompadour clásico</div>
+      <div class="t-desc">Volumen y elegancia retro</div>
+      <div class="t-badge">⭐ Clásico</div>
+    </div>
+    <div class="tendencia-card" onclick="seleccionar(this,'Texturizado','Corte con capas y movimiento natural. Da vida al cabello liso o rizado con aspecto fresco y desenfadado.')">
+      <div class="t-icon">🔱</div><div class="t-name">Texturizado</div>
+      <div class="t-desc">Natural, con movimiento</div>
+      <div class="t-badge">💎 Premium look</div>
+    </div>
+    <div class="tendencia-card" onclick="seleccionar(this,'Burst fade','Fade en forma de arco detrás del oído. Combina perfecto con mohawk o afro. Exclusivo y muy de moda.')">
+      <div class="t-icon">⚡</div><div class="t-name">Burst fade</div>
+      <div class="t-desc">Fade en arco, look exclusivo</div>
+      <div class="t-badge">🔥 Muy pedido</div>
+    </div>
+    <div class="tendencia-card" onclick="seleccionar(this,'Corte recto clásico','Corte prolijo y uniforme sin degradado. Ideal para caballeros que prefieren un look formal, limpio y elegante.')">
+      <div class="t-icon">🎯</div><div class="t-name">Corte recto clásico</div>
+      <div class="t-desc">Formal y prolijo</div>
+      <div class="t-badge">🏅 Top formal</div>
+    </div>
+  </div>
+  <div class="t-action" id="t-action">
+    <p id="t-desc-text"></p>
+    <button class="btn-res" onclick="reservarTendencia()">💬 Reservar este corte — S/ 13</button>
+  </div>
+</section>
+
+<div class="full-section" id="pagos" style="background:var(--dark);">
+  <div class="inner">
+    <div class="section-label">Método de pago</div>
+    <h2 class="section-title">Pagamos con Yape</h2>
+    <div class="divider"></div>
+    <div class="yape-layout">
+      <div class="yape-card">
+        <div class="yape-logo">💜</div>
+        <div class="yape-title">Yape</div>
+        <div style="font-size:0.82rem;color:rgba(255,255,255,0.6);margin:0.5rem 0 0.25rem;position:relative;z-index:1;">Número de Yape</div>
+        <div class="yape-numero">974 008 957</div>
+        <div class="yape-nombre">Peluquería Los Beatles · Puno</div>
+        <div class="yape-precio"><span class="s">S/</span><span class="n">13</span></div>
+      </div>
+      <div class="yape-steps">
+        <p class="title">¿Cómo pagar con Yape?</p>
+        <div class="yape-step"><div class="step-num">1</div><div class="step-text">Abre tu app de <strong>Yape</strong> en tu celular</div></div>
+        <div class="yape-step"><div class="step-num">2</div><div class="step-text">Toca <strong>"Yapear"</strong> e ingresa el número <strong>974 008 957</strong></div></div>
+        <div class="yape-step"><div class="step-num">3</div><div class="step-text">Ingresa el monto: <strong>S/ 13</strong></div></div>
+        <div class="yape-step"><div class="step-num">4</div><div class="step-text">Confirma y muéstranos el <strong>comprobante</strong> al finalizar</div></div>
+        <p style="font-size:0.82rem;color:var(--gray);margin-top:1.25rem;">También aceptamos efectivo al finalizar el servicio.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="historia">
+  <div class="section-label">Nuestra historia</div>
+  <h2 class="section-title">Desde 2009 en Puno</h2>
+  <div class="divider"></div>
+  <div class="historia-body">
+    <div>
+      <div class="historia-stat">
+        <div class="num">15+</div>
+        <div class="lbl">Años de experiencia</div>
+      </div>
+      <div style="margin-top:1.5rem;text-align:center;">
+        <p style="font-size:0.78rem;color:var(--gray);margin-bottom:0.75rem;letter-spacing:0.08em;text-transform:uppercase;">Clientela distinguida</p>
+        <span class="clientes-tag">⚖️ Jueces</span>
+        <span class="clientes-tag">🏛️ Fiscales</span>
+        <span class="clientes-tag">👮 Policías</span>
+        <span class="clientes-tag">⭐ Coroneles</span>
+        <span class="clientes-tag">🎖️ Generales</span>
+      </div>
+    </div>
+    <div class="historia-text">
+      <p><strong>Los Beatles</strong> nació en <strong>2009</strong> en el corazón de Puno con una misión clara: ofrecer cortes de calidad excepcional a un precio justo y accesible para todos.</p>
+      <p>Con años de dedicación, nos ganamos la confianza de las figuras más importantes de la región. Nuestra silla ha recibido a <strong>jueces, fiscales, policías, coroneles y generales</strong>, quienes nos eligieron por nuestra <strong>precisión, discreción y excelencia</strong>.</p>
+      <p>Más de <strong>15 años</strong> de trayectoria nos respaldan. Seguimos fieles a nuestro compromiso: el mejor corte de Puno, a solo <strong style="color:var(--gold);">S/ 13</strong>.</p>
+      <p style="color:var(--gray);font-style:italic;font-size:0.9rem;">"Como los Beatles transformaron la música, nosotros transformamos tu imagen."</p>
+    </div>
+  </div>
+</section>
+
+<section id="ubicacion">
+  <div class="section-label">¿Dónde estamos?</div>
+  <h2 class="section-title">Nuestra ubicación</h2>
+  <div class="divider"></div>
+  <div class="ubicacion-card">
+    <div class="mapa-placeholder">
+      <div class="mapa-pin">📍</div>
+      <p style="color:#aaa;font-size:0.9rem;">Av. El Sol 135 · Puno, Perú · Al frente del estadio</p>
+      <a class="mapa-btn" href="https://www.google.com/maps/search/Av.+El+Sol+135+Puno+Peru" target="_blank">🗺️ Abrir en Google Maps</a>
+    </div>
+    <div class="ubicacion-info">
+      <div class="ubi-row">
+        <div class="ubi-icon">📍</div>
+        <div class="ubi-text"><strong>Av. El Sol 135</strong>, Puno, Perú<br>Al frente del estadio</div>
+      </div>
+      <div class="ubi-row">
+        <div class="ubi-icon">🕐</div>
+        <div class="ubi-text"><strong>Lunes a Sábado</strong><br>9:00 am – 1:00 pm &nbsp;·&nbsp; 2:30 pm – 8:30 pm</div>
+      </div>
+      <div class="ubi-row">
+        <div class="ubi-icon">📞</div>
+        <div class="ubi-text"><strong>WhatsApp:</strong> <a href="https://wa.me/51974008957" style="color:var(--gold);">+51 974 008 957</a></div>
+      </div>
+      <div class="ubi-row">
+        <div class="ubi-icon">💜</div>
+        <div class="ubi-text"><strong>Yape:</strong> <span style="color:var(--gold);">974 008 957</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">✂ Los Beatles</div>
+  <p>Av. El Sol 135 · Al frente del estadio · Puno, Perú</p>
+  <p>WhatsApp & Yape: 974 008 957</p>
+  <p style="margin-top:0.75rem;">© 2009 – 2025 · Peluquería Los Beatles · Todos los derechos reservados</p>
+</footer>
+
+<a href="https://wa.me/51974008957?text=Hola,%20quiero%20reservar%20una%20cita%20en%20Los%20Beatles" class="float-wa" target="_blank" title="WhatsApp">💬</a>
+
+<script>
+function reservar() {
+  const s = document.getElementById('servicio').value;
+  const f = document.getElementById('fecha').value;
+  const h = document.getElementById('hora').value;
+  const n = document.getElementById('nombre').value || 'cliente';
+  const msg = encodeURIComponent(`Hola! Soy ${n}.\nQuiero reservar una cita en Los Beatles.\n\nServicio: ${s}\nFecha: ${f||'a coordinar'}\nHora: ${h}`);
+  window.open(`https://wa.me/51974008957?text=${msg}`,'_blank');
+}
+let selectedCorte = '';
+function seleccionar(card, nombre, descripcion) {
+  document.querySelectorAll('.tendencia-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  selectedCorte = nombre;
+  const action = document.getElementById('t-action');
+  document.getElementById('t-desc-text').textContent = nombre + ': ' + descripcion;
+  action.classList.add('show');
+  setTimeout(() => action.scrollIntoView({behavior:'smooth',block:'nearest'}), 100);
+}
+function reservarTendencia() {
+  const msg = encodeURIComponent(`Hola! Quiero reservar una cita en Los Beatles.\n\nCorte: ${selectedCorte}\nPrecio: S/ 13\n¿Cuándo tienen disponibilidad?`);
+  window.open(`https://wa.me/51974008957?text=${msg}`,'_blank');
+}
+</script>
+</body>
+</html>
